@@ -1,5 +1,17 @@
 # StackOverflowApp
 
+#Demo
+![image](https://github.com/urtaav/Stack-Overflow-Clone-with-Spring-Boot-Angular/assets/30246385/536551fb-fa29-4a3b-a923-99d345117578)
+
+
+![image](https://github.com/urtaav/Stack-Overflow-Clone-with-Spring-Boot-Angular/assets/30246385/301a01e2-92e4-4a6f-a91f-c24ef67a1616)
+
+
+![image](https://github.com/urtaav/Stack-Overflow-Clone-with-Spring-Boot-Angular/assets/30246385/7e6523be-f850-4f6a-9e43-32ac37b2b34d)
+
+
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
 
 ## Development server
