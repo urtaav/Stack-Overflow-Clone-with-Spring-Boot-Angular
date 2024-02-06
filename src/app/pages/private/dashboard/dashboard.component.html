@@ -1,0 +1,33 @@
+@if (questionCollection.length === 0) {
+<section class="surface-section px-4 py-8 md:px-6 lg:px-8">
+    <div class="flex flex-column lg:flex-row justify-content-center align-items-center gap-7">
+        <div class="text-center lg:text-right">
+            <div class="mt-6 mb-3 font-bold text-5xl text-900">No question Found</div>
+
+            <p-button label="Make a question" [outlined]="true" type="button" routerLink="/user/question"></p-button>
+        </div>
+        <div><img src="https://blocks.primeng.org/assets/images/blocks/feedback/404-rocket.png" alt="Image"
+                class="w-full md:w-28rem"></div>
+    </div>
+</section>
+} @else{
+    <section class="surface-section px-4 py-8 md:px-6 lg:px-8">
+        <div class="grid -mt-3 -ml-3 -mr-3">
+           @for (question of questionCollection; track $index) {
+            <div class="col-12">
+               <app-question-card [question]="question" [isTitleRouting]="true"/>
+            </div>
+           }
+           <div class="col-12">
+            <p-paginator
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+            [showCurrentPageReport]="true"
+            (onPageChange)="onPageChange($event)"
+            [rowsPerPageOptions]="[10, 20, 30]"
+            [first]="first" [rows]="rows" [totalRecords]="totalRecords">
+          </p-paginator>
+           </div>
+        </div>
+    </section>
+}
+

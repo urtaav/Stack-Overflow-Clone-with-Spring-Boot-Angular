@@ -1,0 +1,42 @@
+<div class="align-items-center flex justify-content-center lg:px-8 md:px-6 px-4 py-8 surface-section ng-star-inserted">
+    <section class="w-30rem border-1 surface-border border-round-lg">
+        <div class="flex w-full align-items-center justify-content-between px-1"><span
+                class=" w-full">
+                <input #txtSearch type="text" pInputText 
+                    placeholder="Search question"
+                    class="w-full border-none shadow-none outline-none"></span><span
+                class="border-1 p-1 surface-border border-round surface-100 mr-2 text-600 text-xs hidden md:block">
+            <i class="pi pi-search cursor-pointer" (click)="search(txtSearch.value)"></i>
+            </span>
+        </div>
+    </section>
+</div>
+@if (questionCollection.length === 0) {
+<section class="surface-section px-4 py-8 md:px-6 lg:px-8">
+    <div class="flex flex-column lg:flex-row justify-content-center align-items-center gap-7">
+        <div class="text-center lg:text-right">
+            <div class="mt-6 mb-3 font-bold text-5xl text-900">No question Found</div>
+
+            <p-button label="Make a question" [outlined]="true" type="button" routerLink="/user/question"></p-button>
+        </div>
+        <div><img src="https://blocks.primeng.org/assets/images/blocks/feedback/404-rocket.png" alt="Image"
+                class="w-full md:w-28rem"></div>
+    </div>
+</section>
+} @else{
+<section class="surface-section px-4 py-8 md:px-6 lg:px-8">
+    <div class="grid -mt-3 -ml-3 -mr-3">
+        @for (question of questionCollection; track $index) {
+        <div class="col-12">
+            <app-question-card [question]="question" [isTitleRouting]="true" />
+        </div>
+        }
+        <div class="col-12">
+            <p-paginator currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+                [showCurrentPageReport]="true" (onPageChange)="onPageChange($event)" [rowsPerPageOptions]="[10, 20, 30]"
+                [first]="first" [rows]="rows" [totalRecords]="totalRecords">
+            </p-paginator>
+        </div>
+    </div>
+</section>
+}

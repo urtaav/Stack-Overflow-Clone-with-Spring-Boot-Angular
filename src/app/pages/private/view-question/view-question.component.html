@@ -1,0 +1,120 @@
+<section class="surface-section px-4 py-8 md:px-6 lg:px-8 ">
+    <div class="grid -mt-3 -ml-3 -mr-3  border-1 surface-border border-round ">
+        <div class="col-12">
+            @if (question) {
+            <app-question-card [question]="question" [isTitleRouting]="false" />
+            }
+        </div>
+        <div class="col-12">
+            <div class="flex align-items-center mb-4 font-bold p-3"><span
+                    class="text-lg text-900 mr-4">Answers</span><span
+                    class="inline-flex align-items-center justify-content-center w-2rem h-2rem border-1 surface-border border-round">{{answers.length}}</span>
+            </div>
+            <ul class="list-none p-0 m-0  border-1 surface-border border-round ">
+                @for (answer of answers; track $index) {
+                <li class="flex p-3 mb-3">
+                    <div class="w-full">
+                        <div class="flex justify-content-between">
+                            <span class="text-600 mb-3">Answerd by:<b>{{answer.username}}</b></span>
+                            <span class="text-600 mb-3 ml-auto">Answered on :<b>{{answer.createDate | dateAgo}}</b></span>
+                        </div>
+                        <div class="flex">
+                            @if (answer.approved) {
+                            <div style="width: 2rem; height: 2rem;" class="mb-4 mr-3">
+                                <div class="bg-green-50  mt-4 lg:mt-0 p-2 flex align-items-center"
+                                    style="border-radius: 2.5rem;">
+                                    <span
+                                        class="bg-green-700 text-white flex align-items-center justify-content-center border-circle mr-2"
+                                        style="min-width: 2rem; min-height: 2rem;"><i class="pi pi-check"></i></span>
+                                </div>
+                            </div>
+                            }
+                            <!-- TODO Vote section  -->
+                            <div class="vote_actions flex gap-2">
+                                <p-button icon="pi pi-angle-up" [rounded]="true" [text]="true"
+                                    (onClick)="onVote('UPVOTE',answer.voted,answer.id)"
+                                    [styleClass]="answer.voted == 1 ||  answer.voted == '1' ? 'p-button-success' : 'p-button-secondary'"></p-button>
+                                <span class="text-center font-bold text-900 text-3xl">{{question.voteCount}}</span>
+                                <p-button icon="pi pi-angle-down" [rounded]="true" [text]="true"
+                                    (onClick)="onVote('DOWNVOTE',answer.voted,answer.id)"
+                                    [styleClass]="answer.voted == -1 ||  answer.voted == '-1'? 'p-button-success' : 'p-button-secondary'">
+                                </p-button>
+                            </div>
+                        </div>
+                        <p class="line-height-3 mb-0 my-3">{{answer.body}}</p>
+                        @if (answer.file) {
+                        <img [src]="answer.fileSrc" class="w-10rem sm:w-10rem flex-shrink-0 shadow-2">
+                        <br><br>
+                        }
+
+
+
+                        <!-- TODO post comment section  -->
+                        <div class="grid">
+                            <div class="field col-12 mb-4">
+                                <textarea rows="5" cols="30" pInputTextarea placeholder="comment"
+                                    #commentTxt></textarea>
+                            </div>
+                            <div class="col-12">
+                                <p-button label="Comment" type="button"
+                                    (click)="postComment(answer.id, commentTxt.value)"></p-button>
+                            </div>
+                        </div>
+                        <!-- TODO  comment section -->
+                        <div class="flex align-items-center mb-4 font-bold p-3"><span
+                            class="text-lg text-900 mr-4">Comments</span>
+                    </div>
+                        @for (comment of answer.commentDtoList; track $index) {
+             
+                        <div class="flex flex-row p-3 border-1 surface-border border-round mb-2">
+                            <div class="w-full">
+                                <div class="flex justify-content-between align-items-center">
+                                    <div class="flex flex-row align-items-center"> <span
+                                            class="mr-2 font-bold">{{comment.username}}</span> <small
+                                            class="bg-blue-500 p-1 text-white">Top Comment</small> </div> <small>
+                                        {{comment.createdDate | dateAgo}}
+                                    </small>
+                                </div>
+                                <p class="text-justify comment-text mb-0">{{comment.body}}</p>
+                            </div>
+                        </div>
+                        }
+
+                        @if(!question.hasApprovedAnswer){
+                        @if(displayButton){
+                        <p-button label="Aprove Answer" icon="pi pi-check" type="button"
+                            (onClick)="approveAnswer(answer.id)"></p-button>
+                        }
+                        }
+                    </div>
+                </li>
+                }
+
+            </ul>
+        </div>
+        <div class="col-12">
+            <form class="grid formgrid p-fluid p-5" [formGroup]="answerForm" (ngSubmit)="onSubmit()">
+                <div class="field mb-4 col-12">
+                    <label htmlFor="body" class="font-medium text-900">Body *</label>
+                    <textarea id="body" rows="5" cols="30" pInputTextarea formControlName="body"></textarea>
+                </div>
+                <div class="field mb-4 col-12">
+                    <label htmlFor="image" class="font-medium text-900">Image</label>
+                    <div class="flex flex-column">
+                        @if (imagePreview) {
+                        <img [src]="imagePreview" class=" h-10rem w-10rem mb-3">
+                        }
+                        <p-fileUpload mode="basic" chooseLabel="Choose" name="demo[]" accept="image/*"
+                            (onSelect)="onSelect($event)"></p-fileUpload>
+                    </div>
+                </div>
+                <div class="w-full">
+                    <p-button label="Post answer" icon="pi pi-send" styleClass="w-full" type="submit" [outlined]="true"
+                        severity="secondary"></p-button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<p-toast></p-toast>
